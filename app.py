@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import os 
+import math
 import subprocess
 from PIL import Image
 app = Flask(__name__)
@@ -38,6 +39,7 @@ preprocess = [
 def index():
     return render_template('index.html')
 
+
 @app.route('/upload', methods = ['POST'])
 def upload():
     img = request.files['file']
@@ -46,15 +48,18 @@ def upload():
     subprocess.run(detect)
     
     with open('results/exp/labels/infer.txt', 'r') as result_file:
-        res, conf = result_file.readlines()[-1].split()[:2]
+        res, conf = result_file.readlines()[-1].split()[::5]
         result = {
             "condition" : class_table[int(res)],
-            "confidence" : float(conf)*100,
+            "confidence" : math.ceil(float(conf)*100),
+            "img" : os.path.join(os.getcwd(), 'results/exp/infer.jpg'),
         }
         
-        return jsonify(result)
+        return render_template('result.html', result = result)
         
-        
+@app.route('/result_image')
+def result_image():
+    return send_from_directory('results/exp', 'infer.jpg')
 
 if __name__ == '__main__':
     app.run(debug=True)

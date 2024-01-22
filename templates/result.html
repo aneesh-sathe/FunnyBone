@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OrthoAI Results</title>
+  </head>
+  <body>
+    <h1>Results</h1>
+    <div>
+      <p>Condition: {{ result.condition }}</p>
+      <p>Confidence: {{ result.confidence }}%</p>
+    </div>
+    <img src="{{ url_for('result_image') }}" alt="Result Image" width="512" height="512">
+</body>
+</html>
+  </body>
+</html>
