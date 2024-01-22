@@ -51,8 +51,7 @@ def upload():
         res, conf = result_file.readlines()[-1].split()[::5]
         result = {
             "condition" : class_table[int(res)],
-            "confidence" : math.ceil(float(conf)*100),
-            "img" : os.path.join(os.getcwd(), 'results/exp/infer.jpg'),
+            "confidence" : math.floor(float(conf)*100),
         }
         
         return render_template('result.html', result = result)
