@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-save_path = 'images'
+save_path = 'images/infer.jpg'
 app = Flask(__name__)
 
 @app.route('/', methods = ['GET'])
 def index():
-    return 'templates/index.html'
+    return render_template('index.html')
 
 @app.route('/upload', methods = ['POST'])
 def upload():
