@@ -10,6 +10,10 @@ save_result = "results"
 conf = 0.4
 img_path = 'images/infer.jpg'
 
+# class look-up table 
+class_table = ['elbow positive', 'fingers positive', 'forearm fracture', 'humerus fracture', 'shoulder fracture', 'wrist positive']
+
+
 detect = [
     'python', yolov7,
     '--weights', model_weigths,
@@ -40,6 +44,17 @@ def upload():
     img.save(img_path)
     subprocess.run(preprocess)
     subprocess.run(detect)
+    
+    with open('results/exp/labels/infer.txt', 'r') as result_file:
+        res, conf = result_file.readlines()[-1].split()[:2]
+        result = {
+            "condition" : class_table[int(res)],
+            "confidence" : float(conf)*100,
+        }
+        
+        return jsonify(result)
+        
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
