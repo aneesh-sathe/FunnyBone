@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os 
+from langchain_community.llms import Ollama
 import math
 import subprocess
 from PIL import Image
