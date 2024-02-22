@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
+from langchain_community.llms import Ollama
+from generate import make_report
 import json
 import os 
-from langchain_community.llms import Ollama
 import math
 import subprocess
 from PIL import Image
@@ -80,10 +81,12 @@ def result_image():
 
 @app.route('/report')
 def generate_report():
-    report = llm.invoke('what is your name?')
+    
+    with open('results/exp/labels/result.json', 'r') as file:
+        result = json.load(file)
+    report = make_report(result)
     return render_template('report.html', report = report)
     
-
 if __name__ == '__main__':
     app.run(debug=True)
     
