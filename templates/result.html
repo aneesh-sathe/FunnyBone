@@ -11,6 +11,9 @@
       <p>Confidence: {{ result.confidence }} %</p>
     </div>
     <img src="{{ url_for('result_image') }}" alt="Result Image" width="512" height="512">
+    <form action="/report" method="get" enctype="multipart/form-data">
+      <button type="submit">Generate Report</button>
+    </form>
 </body>
 </html>
   </body>

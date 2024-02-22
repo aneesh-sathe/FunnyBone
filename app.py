@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
+import json
 import os 
-from langchain_community.llms import ollama
+from langchain_community.llms import Ollama
 import math
 import subprocess
 from PIL import Image
@@ -15,7 +16,7 @@ img_path = 'images/infer.jpg'
 # class look-up table 
 class_table = ['elbow positive', 'fingers positive', 'forearm fracture', 'humerus fracture', 'shoulder fracture', 'wrist positive']
 
-#llm = ollama(model='llama2')
+llm = Ollama(model="llama2")
 
 detect = [
     'python', yolov7,
@@ -49,6 +50,7 @@ def upload():
 
     if os.listdir('results/exp/labels'): # delete previous result labels
         os.remove('results/exp/labels/infer.txt')
+        os.remove('results/exp/labels/result.json')
     
     subprocess.run(preprocess)
     subprocess.run(detect)
@@ -66,11 +68,21 @@ def upload():
             "confidence" : "N/A"
         }
         
+    result_json = json.dumps(result, indent=2)
+    with open('results/exp/labels/result.json', 'w') as json_file:
+        json_file.write(result_json)
+        
     return render_template('result.html', result = result)
         
 @app.route('/result_image')
 def result_image():
     return send_from_directory('results/exp', 'infer.jpg')
+
+@app.route('/report')
+def generate_report():
+    report = llm.invoke('what is your name?')
+    return render_template('report.html', report = report)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
