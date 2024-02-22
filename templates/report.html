@@ -2,13 +2,34 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OrthoAI Results</title>
+    <title>FunnyBone Report</title>
   </head>
   <body>
     <h1>Medical Report</h1>
     <div>
       <p>{{report}}</p>
+      <button onclick="downloadWebpage()">Download Report</button>
     </div>
+    <script>
+        function downloadWebpage() {
+         
+            var webpageContent = document.documentElement.outerHTML;
+            var blob = new Blob([webpageContent], { type: 'text/html' });
+
+            
+            var downloadLink = document.createElement('a');
+            downloadLink.href = window.URL.createObjectURL(blob);
+            downloadLink.download = 'webpage_content.html';
+
+           
+            document.body.appendChild(downloadLink);
+
+          
+            downloadLink.click();
+
+            document.body.removeChild(downloadLink);
+        }
+    </script>
 </body>
 </html>
   </body>
