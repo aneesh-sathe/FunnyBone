@@ -61,7 +61,7 @@ def upload():
             res, conf = result_file.readlines()[-1].split()[::5]
             result = {
                 "condition" : class_table[int(res)],
-                "confidence" : math.floor(float(conf)*100),
+                "confidence" : int(round(float(conf)*100)),
             }
     else:
         result = {

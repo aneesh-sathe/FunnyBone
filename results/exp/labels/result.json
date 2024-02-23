@@ -1,4 +1,4 @@
 {
-  "condition": "unable to detect fracture, consult a doctor!",
-  "confidence": "N/A"
+  "condition": "elbow positive",
+  "confidence": 95
 }
