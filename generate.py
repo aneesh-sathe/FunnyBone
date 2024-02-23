@@ -15,6 +15,7 @@ chat_template = ChatPromptTemplate.from_messages(
     ]
 )
 
+
 chain = chat_template | llm | output_parser
 
 def make_report(result):
